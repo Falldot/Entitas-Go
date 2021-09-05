@@ -2,6 +2,7 @@ package generator
 
 import (
 	"go/ast"
+	"go/types"
 	"unicode"
 )
 
@@ -21,7 +22,13 @@ func FindComponents(f *ast.File) []*Component {
 			case *ast.StructType:
 				if unicode.IsUpper(rune(t.Name.Name[0])) {
 					comp.Name = t.Name.Name
+					for _, v := range t.Type.(*ast.StructType).Fields.List {
+						for _, name := range v.Names {
+							comp.Fields[name.Name] = types.ExprString(v.Type)
+						}
+					}
 				}
+
 			case *ast.Ident:
 				if unicode.IsUpper(rune(t.Name.Name[0])) {
 					comp.Ident = true
