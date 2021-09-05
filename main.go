@@ -4,14 +4,14 @@ import (
 	"go/parser"
 	"go/token"
 	"io/ioutil"
-	"os"
 
 	"github.com/Falldot/Entitas-Go/generator"
 )
 
 func main() {
 	fset := token.NewFileSet()
-	inFileName := os.Getenv("GOFILE")
+	//inFileName := os.Getenv("GOFILE")
+	inFileName := "ECS.go"
 
 	src, err := ioutil.ReadFile(inFileName)
 	if err != nil {

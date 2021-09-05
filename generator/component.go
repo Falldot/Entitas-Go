@@ -1,6 +1,9 @@
 package generator
 
-import "go/ast"
+import (
+	"go/ast"
+	"unicode"
+)
 
 type Component struct {
 	Name   string
@@ -16,16 +19,15 @@ func FindComponents(f *ast.File) []*Component {
 		case *ast.TypeSpec:
 			switch t.Type.(type) {
 			case *ast.StructType:
-				comp.Name = t.Name.Name
-				for _, v := range t.Type.(*ast.StructType).Fields.List {
-					for _, name := range v.Names {
-						comp.Fields[name.Name] = v.Type.(*ast.Ident).String()
-					}
+				if unicode.IsUpper(rune(t.Name.Name[0])) {
+					comp.Name = t.Name.Name
 				}
 			case *ast.Ident:
-				comp.Ident = true
-				comp.Name = t.Name.Name
-				comp.Fields[comp.Name] = t.Type.(*ast.Ident).String()
+				if unicode.IsUpper(rune(t.Name.Name[0])) {
+					comp.Ident = true
+					comp.Name = t.Name.Name
+					comp.Fields[comp.Name] = t.Type.(*ast.Ident).String()
+				}
 			}
 		}
 		if comp.Name != "" {
