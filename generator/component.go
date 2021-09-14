@@ -54,7 +54,7 @@ const (
 `
 
 const componentTemplate = `
-func (e *Entity) Add{name}({argsWithType}) {
+func (e *Entity) Add{name}({argsWithType}) *Entity {
 	var c *{name}Component
 	if comp, ok := e.Create({name}); ok {
 		c = comp.(*{name}Component)
@@ -64,6 +64,7 @@ func (e *Entity) Add{name}({argsWithType}) {
 	{result}
 	e.components[{name}] = c
 	e.onComponentAdd.Execute(e, {name}, c)
+	return e
 }
 
 func (e *Entity) Replace{name}({argsWithType}) {
