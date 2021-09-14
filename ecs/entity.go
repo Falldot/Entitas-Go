@@ -43,7 +43,7 @@ func (e *Entity) ID() int {
 }
 
 func (e *Entity) Destroy() {
-	e.componentState = componentState{}
+	e.componentState = make(componentState, e.componentTotal)
 	e.onComponentOff = e.onComponentOff[:1]
 	e.onComponentAdd = e.onComponentAdd[:1]
 	e.onComponentReplace = e.onComponentReplace[:1]
